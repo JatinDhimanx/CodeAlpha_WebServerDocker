@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Mouse Glow Effect
     const cursorGlow = document.getElementById('cursor-glow');
     
     document.addEventListener('mousemove', (e) => {
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 2. Terminal Typewriter Effect
     const textElement = document.getElementById('typewriter');
     const commands = [
         "docker build -t nexus-web .",
@@ -24,18 +22,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (currentChar < commands[currentLine].length) {
                 textElement.innerHTML += commands[currentLine].charAt(currentChar);
                 currentChar++;
-                setTimeout(typeWriter, Math.random() * 50 + 50); // 50-100ms per char
+                setTimeout(typeWriter, Math.random() * 50 + 50);
             } else {
-                // Finished a line
                 if (currentLine < commands.length - 1) {
                     textElement.innerHTML += "<br><span class='prompt'>$</span> ";
                 }
                 currentLine++;
                 currentChar = 0;
-                setTimeout(typeWriter, 800); // Wait before next line
+                setTimeout(typeWriter, 800);
             }
         } else {
-            // Remove blinking cursor when done, or leave it. We will leave it.
             const cursor = document.querySelector('.cursor');
             cursor.style.animation = 'blink 1s step-end infinite';
         }
