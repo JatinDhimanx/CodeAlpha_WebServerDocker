@@ -3,91 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Docker Web Server | Enterprise Edition</title>
+    <title>Stitch Server Dashboard</title>
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="glow-bg"></div>
-    <div class="cursor-glow" id="cursor-glow"></div>
-
-    <div class="container">
-        <nav class="navbar">
-            <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 12.5A9.5 9.5 0 0 0 12 3a9.5 9.5 0 0 0-10 9.5"/>
-                    <path d="M12 15h10"/>
-                    <path d="M12 18h10"/>
-                    <path d="M12 21h10"/>
-                    <path d="M2 15h5"/>
-                    <path d="M2 18h5"/>
-                    <path d="M2 21h5"/>
-                    <path d="M7 15h5"/>
-                    <path d="M7 18h5"/>
-                    <path d="M7 21h5"/>
-                </svg>
-                <span>NexusServer</span>
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-icon">
+                    <i data-lucide="hexagon"></i>
+                </div>
+                <span class="logo-text">Nexus<span class="logo-highlight">OS</span></span>
             </div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="https://github.com/jatindhimanx" target="_blank" class="btn btn-outline">GitHub</a>
-            </div>
-        </nav>
 
-        <main class="hero">
-            <div class="hero-content">
-                <div class="badge">v2.0.0 Production Ready</div>
-                <h1 class="hero-title">High-Performance<br><span class="text-gradient">Containerized</span> Web Server</h1>
-                <p class="hero-subtitle">
-                    Seamlessly deployed using Docker and Nginx. Built for speed, scale, and uncompromising reliability. 
-                </p>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <span class="nav-section-title">Overview</span>
+                    <button class="nav-item active" data-target="dashboard">
+                        <i data-lucide="layout-dashboard"></i>
+                        Dashboard
+                    </button>
+                    <button class="nav-item" data-target="metrics">
+                        <i data-lucide="activity"></i>
+                        Metrics
+                    </button>
+                    <button class="nav-item" data-target="logs">
+                        <i data-lucide="terminal"></i>
+                        Server Logs
+                    </button>
+                </div>
                 
-                <div class="terminal-container">
-                    <div class="terminal-header">
-                        <span class="dot red"></span>
-                        <span class="dot yellow"></span>
-                        <span class="dot green"></span>
-                        <span class="terminal-title">bash - root@nexus</span>
+                <div class="nav-section">
+                    <span class="nav-section-title">Settings</span>
+                    <button class="nav-item" data-target="configuration">
+                        <i data-lucide="settings"></i>
+                        Configuration
+                    </button>
+                    <button class="nav-item" onclick="app.showToast('Disconnected from server.', 'warning')">
+                        <i data-lucide="log-out"></i>
+                        Disconnect
+                    </button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="https://ui-avatars.com/api/?name=Jatin+Dhiman&background=3b82f6&color=fff" alt="User" class="avatar">
+                    <div class="user-info">
+                        <span class="user-name">Jatin Dhiman</span>
+                        <span class="user-role">Administrator</span>
                     </div>
-                    <div class="terminal-body">
-                        <span class="prompt">$</span> <span id="typewriter"></span><span class="cursor">_</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="header-search">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" placeholder="Search commands, logs, or metrics (Ctrl+K)...">
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <span class="status-dot green"></span>
+                        System Healthy
+                    </div>
+                    <button class="icon-btn" onclick="app.showToast('No new notifications', 'success')"><i data-lucide="bell"></i></button>
+                    <a href="https://github.com/JatinDhimanx" target="_blank" class="btn btn-outline"><i data-lucide="github"></i> GitHub</a>
+                </div>
+            </header>
+
+            <!-- Views Container -->
+            <div class="view-container">
+                
+                <!-- View: Dashboard -->
+                <div class="view active" id="view-dashboard">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Welcome back, Jatin</h1>
+                            <p class="page-subtitle">Here is what's happening with your server today.</p>
+                        </div>
+                        <button class="btn btn-primary" id="deploy-btn"><i data-lucide="rocket"></i> Deploy Changes</button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Total Requests</span>
+                                <i data-lucide="globe" class="stat-icon"></i>
+                            </div>
+                            <div class="stat-value" id="stat-requests">24,592</div>
+                            <div class="stat-trend positive"><i data-lucide="trending-up"></i> +12.5% from yesterday</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Avg Response Time</span>
+                                <i data-lucide="zap" class="stat-icon"></i>
+                            </div>
+                            <div class="stat-value">42ms</div>
+                            <div class="stat-trend positive"><i data-lucide="trending-down"></i> -5ms from yesterday</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-header">
+                                <span class="stat-title">Uptime</span>
+                                <i data-lucide="clock" class="stat-icon"></i>
+                            </div>
+                            <div class="stat-value" id="stat-uptime">99.99%</div>
+                            <div class="stat-trend neutral">Stable</div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-panels">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>Quick Actions</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="action-grid">
+                                    <button class="action-btn" onclick="app.showToast('Cache cleared successfully!', 'success')">
+                                        <i data-lucide="refresh-cw"></i>
+                                        <span>Clear Cache</span>
+                                    </button>
+                                    <button class="action-btn" onclick="app.showToast('Server restart initiated...', 'warning')">
+                                        <i data-lucide="power"></i>
+                                        <span>Restart</span>
+                                    </button>
+                                    <button class="action-btn" onclick="app.switchTab('logs')">
+                                        <i data-lucide="file-text"></i>
+                                        <span>View Logs</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>Container Details</h3>
+                            </div>
+                            <div class="panel-body">
+                                <ul class="details-list">
+                                    <li><span class="label">Image</span><span class="value">nginx:alpine</span></li>
+                                    <li><span class="label">Port</span><span class="value">8080:80</span></li>
+                                    <li><span class="label">Status</span><span class="value"><span class="badge green">Running</span></span></li>
+                                    <li><span class="label">Network</span><span class="value">bridge</span></li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="cta-group">
-                    <button class="btn btn-primary" onclick="alert('System running optimally. Container metrics are normal.')">System Status</button>
-                    <a href="https://docs.docker.com/" target="_blank" class="btn btn-secondary">Documentation</a>
+                <!-- View: Metrics -->
+                <div class="view" id="view-metrics">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">System Metrics</h1>
+                            <p class="page-subtitle">Live hardware utilization statistics.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>CPU Usage</h3>
+                                <span class="live-badge">Live</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="metric-visualizer">
+                                    <div class="metric-number" id="cpu-percent">14%</div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill blue" id="cpu-bar" style="width: 14%"></div>
+                                    </div>
+                                </div>
+                                <div class="metric-chart" id="cpu-chart">
+                                    <!-- Simulated chart bars injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="panel">
+                            <div class="panel-header">
+                                <h3>Memory Usage</h3>
+                                <span class="live-badge">Live</span>
+                            </div>
+                            <div class="panel-body">
+                                <div class="metric-visualizer">
+                                    <div class="metric-number" id="mem-percent">45%</div>
+                                    <div class="metric-subtitle" id="mem-text">3.6 GB / 8.0 GB</div>
+                                    <div class="progress-bar-bg">
+                                        <div class="progress-bar-fill purple" id="mem-bar" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div class="metric-chart" id="mem-chart">
+                                    <!-- Simulated chart bars injected by JS -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- View: Logs -->
+                <div class="view" id="view-logs">
+                    <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Terminal Logs</h1>
+                            <p class="page-subtitle">Real-time application output.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn btn-outline" id="clear-logs-btn"><i data-lucide="trash-2"></i> Clear</button>
+                            <button class="btn btn-primary" onclick="app.showToast('Logs exported to logs.txt', 'success')"><i data-lucide="download"></i> Export</button>
+                        </div>
+                    </div>
+                    
+                    <div class="terminal-wrapper">
+                        <div class="terminal-header">
+                            <div class="term-dots">
+                                <span></span><span></span><span></span>
+                            </div>
+                            <div class="term-title">bash - root@nexus-server</div>
+                        </div>
+                        <div class="terminal-output" id="log-output">
+                            <div class="log-line system">Nginx Alpine container started successfully.</div>
+                            <div class="log-line system">Listening on port 80...</div>
+                            <!-- Logs injected here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View: Configuration -->
+                <div class="view" id="view-configuration">
+                     <div class="page-header">
+                        <div>
+                            <h1 class="page-title">Configuration</h1>
+                            <p class="page-subtitle">Manage server settings.</p>
+                        </div>
+                        <button class="btn btn-primary" onclick="app.showToast('Settings saved!', 'success')">Save Changes</button>
+                    </div>
+
+                    <div class="panel form-panel">
+                        <div class="form-group">
+                            <label>Server Name</label>
+                            <input type="text" value="NexusOS Node 1" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Environment</label>
+                            <select class="form-input">
+                                <option>Production</option>
+                                <option>Staging</option>
+                                <option>Development</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Auto-restart Container</label>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
             </div>
         </main>
-
-        <section class="features" id="features">
-            <div class="feature-card">
-                <div class="feature-icon">🐳</div>
-                <h3>Container Native</h3>
-                <p>Fully containerized architecture ensuring complete portability across any environment.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Lightning Fast</h3>
-                <p>Powered by Nginx Alpine, delivering static assets with incredibly low latency.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Secure by Design</h3>
-                <p>Minimal attack surface with isolated processes and streamlined dependencies.</p>
-            </div>
-        </section>
-
-        <footer class="footer">
-            <div class="footer-content">
-                <p>&copy; 2026 Nexus Web Server. Engineered by Jatin.</p>
-            </div>
-        </footer>
     </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="deploy-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Deploy Changes</h2>
+                <button class="close-modal"><i data-lucide="x"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to deploy the latest changes to the production environment? This will restart the container.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline close-modal">Cancel</button>
+                <button class="btn btn-primary" id="confirm-deploy-btn">Yes, Deploy</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
     <script src="assets/js/script.js"></script>
 </body>
 </html>
