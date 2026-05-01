@@ -14,7 +14,84 @@
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-    <div class="app-layout">
+    <!-- Authentication Layout -->
+    <div id="auth-layout" class="auth-layout">
+        <div class="auth-container">
+            <!-- Login View -->
+            <div class="auth-card active" id="auth-login">
+                <div class="auth-header">
+                    <div class="logo-icon"><i data-lucide="hexagon"></i></div>
+                    <h2>Welcome to Nexus<span class="logo-highlight">OS</span></h2>
+                    <p>Log in to access your dashboard</p>
+                </div>
+                <form class="auth-form" onsubmit="event.preventDefault(); app.handleLogin();">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-with-icon">
+                            <i data-lucide="mail"></i>
+                            <input type="email" class="form-input" placeholder="admin@nexusos.dev" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-with-icon">
+                            <i data-lucide="lock"></i>
+                            <input type="password" class="form-input" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" checked> Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-submit">Sign In <i data-lucide="arrow-right"></i></button>
+                </form>
+                <div class="auth-footer">
+                    <p>Don't have an account? <a href="#" onclick="event.preventDefault(); app.switchAuthView('signup')">Sign up</a></p>
+                </div>
+            </div>
+
+            <!-- Sign Up View -->
+            <div class="auth-card" id="auth-signup" style="display: none;">
+                <div class="auth-header">
+                    <div class="logo-icon"><i data-lucide="hexagon"></i></div>
+                    <h2>Create Account</h2>
+                    <p>Join NexusOS to deploy your server</p>
+                </div>
+                <form class="auth-form" onsubmit="event.preventDefault(); app.handleSignup();">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="input-with-icon">
+                            <i data-lucide="user"></i>
+                            <input type="text" class="form-input" placeholder="John Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <div class="input-with-icon">
+                            <i data-lucide="mail"></i>
+                            <input type="email" class="form-input" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="input-with-icon">
+                            <i data-lucide="lock"></i>
+                            <input type="password" class="form-input" placeholder="••••••••" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary auth-submit">Create Account <i data-lucide="user-plus"></i></button>
+                </form>
+                <div class="auth-footer">
+                    <p>Already have an account? <a href="#" onclick="event.preventDefault(); app.switchAuthView('login')">Sign in</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Layout -->
+    <div id="app-layout" class="app-layout" style="display: none;">
         <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -47,7 +124,7 @@
                         <i data-lucide="settings"></i>
                         Configuration
                     </button>
-                    <button class="nav-item" onclick="app.showToast('Disconnected from server.', 'warning')">
+                    <button class="nav-item" onclick="app.logout()">
                         <i data-lucide="log-out"></i>
                         Disconnect
                     </button>

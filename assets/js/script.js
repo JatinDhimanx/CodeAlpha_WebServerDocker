@@ -19,6 +19,65 @@ const app = {
         this.streamLogs();
     },
 
+    switchAuthView(view) {
+        const loginCard = document.getElementById('auth-login');
+        const signupCard = document.getElementById('auth-signup');
+        
+        if (view === 'login') {
+            signupCard.style.display = 'none';
+            loginCard.style.display = 'block';
+            setTimeout(() => loginCard.classList.add('active'), 10);
+            signupCard.classList.remove('active');
+        } else {
+            loginCard.style.display = 'none';
+            signupCard.style.display = 'block';
+            setTimeout(() => signupCard.classList.add('active'), 10);
+            loginCard.classList.remove('active');
+        }
+    },
+
+    handleLogin() {
+        const btn = document.querySelector('#auth-login .auth-submit');
+        btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Authenticating...';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        setTimeout(() => {
+            document.getElementById('auth-layout').style.display = 'none';
+            document.getElementById('app-layout').style.display = 'flex';
+            this.showToast('Login successful! Welcome back.', 'success');
+            
+            // Reset button state
+            btn.innerHTML = 'Sign In <i data-lucide="arrow-right"></i>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 1500);
+    },
+
+    handleSignup() {
+        const btn = document.querySelector('#auth-signup .auth-submit');
+        btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Creating account...';
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+
+        setTimeout(() => {
+            document.getElementById('auth-layout').style.display = 'none';
+            document.getElementById('app-layout').style.display = 'flex';
+            this.showToast('Account created successfully!', 'success');
+            
+            // Reset button state
+            btn.innerHTML = 'Create Account <i data-lucide="user-plus"></i>';
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+        }, 1500);
+    },
+
+    logout() {
+        document.getElementById('app-layout').style.display = 'none';
+        document.getElementById('auth-layout').style.display = 'flex';
+        this.switchAuthView('login');
+        this.showToast('Disconnected from server.', 'warning');
+        
+        // Reset tabs to dashboard
+        this.switchTab('dashboard');
+    },
+
     initTabs() {
         const navItems = document.querySelectorAll('.nav-item[data-target]');
         const views = document.querySelectorAll('.view');
