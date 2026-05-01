@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Web Server | Enterprise Edition</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Background Glow Effects -->
+    <div class="glow-bg"></div>
+    <div class="cursor-glow" id="cursor-glow"></div>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12.5A9.5 9.5 0 0 0 12 3a9.5 9.5 0 0 0-10 9.5"/>
+                    <path d="M12 15h10"/>
+                    <path d="M12 18h10"/>
+                    <path d="M12 21h10"/>
+                    <path d="M2 15h5"/>
+                    <path d="M2 18h5"/>
+                    <path d="M2 21h5"/>
+                    <path d="M7 15h5"/>
+                    <path d="M7 18h5"/>
+                    <path d="M7 21h5"/>
+                </svg>
+                <span>NexusServer</span>
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#about">About</a>
+                <a href="https://github.com/jatindhimanx" target="_blank" class="btn btn-outline">GitHub</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <main class="hero">
+            <div class="hero-content">
+                <div class="badge">v2.0.0 Production Ready</div>
+                <h1 class="hero-title">High-Performance<br><span class="text-gradient">Containerized</span> Web Server</h1>
+                <p class="hero-subtitle">
+                    Seamlessly deployed using Docker and Nginx. Built for speed, scale, and uncompromising reliability. 
+                </p>
+                
+                <div class="terminal-container">
+                    <div class="terminal-header">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                        <span class="terminal-title">bash - root@nexus</span>
+                    </div>
+                    <div class="terminal-body">
+                        <span class="prompt">$</span> <span id="typewriter"></span><span class="cursor">_</span>
+                    </div>
+                </div>
+
+                <div class="cta-group">
+                    <button class="btn btn-primary" onclick="alert('System running optimally. Container metrics are normal.')">System Status</button>
+                    <a href="https://docs.docker.com/" target="_blank" class="btn btn-secondary">Documentation</a>
+                </div>
+            </div>
+        </main>
+
+        <!-- Features Section -->
+        <section class="features" id="features">
+            <div class="feature-card">
+                <div class="feature-icon">🐳</div>
+                <h3>Container Native</h3>
+                <p>Fully containerized architecture ensuring complete portability across any environment.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Lightning Fast</h3>
+                <p>Powered by Nginx Alpine, delivering static assets with incredibly low latency.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Secure by Design</h3>
+                <p>Minimal attack surface with isolated processes and streamlined dependencies.</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>&copy; 2026 Nexus Web Server. Engineered by Jatin.</p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="assets/js/script.js"></script>
+</body>
+</html>
